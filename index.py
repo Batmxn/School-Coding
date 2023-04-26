@@ -1,94 +1,97 @@
 import random
-import time
 import os
 
-# function to clear the terminal
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+# Function to read a file and return its contents as a list
+def read_file(filename):
+    with open(filename, "r") as f:
+        lines = f.readlines()
+    return [line.strip() for line in lines]
 
-# function to read the logins.txt file
-def read_logins():
-    logins = {}
-    with open('logins.txt') as f:
-        for line in f:
-            username, password = line.strip().split(',')
-            logins[username] = password
-    return logins
+# Function to write a line to a file
+def write_line(filename, line):
+    with open(filename, "a") as f:
+        f.write(line + "\n")
 
-# function to read the songs.txt file
-def read_songs():
-    songs = []
-    with open('songs.txt') as f:
-        for line in f:
-            song, artist = line.strip().split(',')
-            songs.append((song, artist))
-    return songs
+# Function to clear the terminal screen
+def clear_screen():
+    os.system("cls" if os.name == "nt" else "clear")
 
-# function to read the scores.txt file
-def read_scores():
-    scores = {}
-    with open('scores.txt') as f:
-        for line in f:
-            username, high_score = line.strip().split(',')
-            scores[username] = int(high_score)
-    return scores
+# Function to get a username and password from the user and store it in a file
+def get_login():
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+    write_line("logins.txt", f"{username},{password}")
 
-# function to write a new high score to the scores.txt file
-def write_score(username, high_score):
-    scores = read_scores()
-    scores[username] = high_score
-    with open('scores.txt', 'w') as f:
-        for username, high_score in sorted(scores.items(), key=lambda x: x[1], reverse=True)[:5]:
-            f.write(f"{username},{high_score}\n")
+# Function to check if a username and password match a stored login
+def check_login(username, password):
+    logins = read_file("logins.txt")
+    if f"{username},{password}" in logins:
+        return True
+    else:
+        write_line("logins.txt", f"{username},{password}")
+        return False
 
-# function to play the game
-def play_game(songs):
-    score = 0
+# Function to play the guess the song game
+def play_game(username):
+    songs = read_file("songs.txt")
     lives = 3
-    for i in range(1, 11):
-        clear()
-        print(f"Question {i}/10")
-        song, artist = random.choice(songs)
-        print(f"Artist: {artist}")
-        print(f"Song: {song[0].upper() + '-'*(len(song)-1)}")
-        for j in range(2):
-            guess = input("Your guess: ")
-            if guess.lower() == song.lower():
-                print("Correct!")
-                if j == 0:
-                    score += 3
-                else:
-                    score += 1
-                break
+    points = 0
+    clear_screen()
+    print(f"Welcome to Guess the Song, {username}!")
+    while len(songs) > 0 and lives > 0:
+        song = random.choice(songs)
+        songs.remove(song)
+        song_name, artist_name = song.split(",")
+        hint = f"{artist_name} - {song_name[0]}"
+        print(f"\nHint: {hint}")
+        guess = input("What is the name of this song? ")
+        if guess.lower() == song_name.lower():
+            points += 3
+            print("Correct! You earned 3 points.")
+        else:
+            lives -= 1
+            if lives == 0:
+                print(f"Incorrect. You have run out of lives. The answer was {song_name}.")
             else:
-                print("Incorrect.")
-                lives -= 1
-                if lives == 0:
-                    print("Game over.")
-                    return score
-                elif j == 0:
-                    print(f"You have {lives} lives left. Here's another hint:")
-                    print(f"Song: {song[0].upper() + '-'*(len(song)-1)}")
-                    time.sleep(2)
-    return score
+                print(f"Incorrect. You have {lives} lives remaining. Try again.")
+                guess = input("What is the name of this song? ")
+                if guess.lower() == song_name.lower():
+                    points += 1
+                    print("Correct! You earned 1 point.")
+                else:
+                    lives -= 1
+                    if lives == 0:
+                        print(f"Incorrect. You have run out of lives. The answer was {song_name}.")
+                    else:
+                        print(f"Incorrect. You have {lives} lives remaining. The answer was {song_name}.")
+    print(f"\nGame over. You earned {points} points.")
+    update_scoreboard(username, points)
 
-# main program
-logins = read_logins()
-username = input("Username: ")
-password = input("Password: ")
-if username in logins and logins[username] == password:
-    clear()
-    print(f"Welcome, {username}!")
-    input("Press Enter to start the game...")
-    clear()
-    print("Loading...")
-    time.sleep(7)
-    songs = read_songs()
-    score = play_game(songs)
-    print(f"Total score: {score}")
-    write_score(username, score)
-    print("Top 5 Scores:")
-    for i, (username, high_score) in enumerate(sorted(read_scores().items(), key=lambda x: x[1], reverse=True)[:5]):
-        print(f"{i+1}. {username}: {high_score}")
-else:
-    print("Incorrect username or password.")
+# Function to update the scoreboard with a user's score
+def update_scoreboard(username, score):
+    scores = read_file("scores.txt")
+    user_scores = [line.split(",") for line in scores if line.startswith(username)]
+    if user_scores:
+        highest_score = max(int(user_score[1]) for user_score in user_scores)
+        if score > highest_score:
+            user_scores = [[username, str(score)]] + [user_score for user_score in user_scores if int(user_score[1]) < score]
+        else:
+            return
+    else:
+        user_scores = [[username, str(score)]]
+    scores = [",".join(user_score) for user_score in user_scores] + [line for line in scores if not line.startswith(username)]
+    with open("scores.txt", "w") as f:
+        f.write("\n".join(scores))
+
+# Main program
+while True:
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+    if check_login(username, password):
+        clear_screen()
+        play_game(username)
+        break
+    else:
+        print("Incorrect login. Please try again.")
+
+
