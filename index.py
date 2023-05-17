@@ -29,7 +29,6 @@ def check_login(username, password):
     if f"{username},{password}" in logins:
         return True
     else:
-        write_line("logins.txt", f"{username},{password}")
         return False
 
 # Function to update the scoreboard with a user's score
@@ -65,10 +64,11 @@ def display_menu():
     Guess the Song - Main Menu
 
     1. Play Game
-    2. Leaderboard
-    3. Exit
+    2. Create Account
+    3. Leaderboard
+    4. Exit
 
-    Select an option (1-3): """
+    Select an option (1-4): """
     print(menu)
 
 # Function to center align text
@@ -84,15 +84,19 @@ def display_centered_menu():
     Guess the Song - Main Menu
 
     1. Play Game
-    2. Leaderboard
-    3. Exit
+    2. Create Account
+    3. Leaderboard
+    4. Exit
     """
     print(center_align(menu))
 
 # Function to play the guess the song game
-def play_game(username, points):
+def play_game(username):
     songs = read_file("songs.txt")
     lives = 3
+    score = 0
+    clear_screen()
+    print(f"Welcome to Oliver Smith's song guessing game extravaganza!, {username}!")
     while len(songs) > 0 and lives > 0:
         song = random.choice(songs)
         songs.remove(song)
@@ -101,7 +105,7 @@ def play_game(username, points):
         print(f"\nHint: {hint}")
         guess = input("What is the name of this song? ")
         if guess.lower() == song_name.lower():
-            points += 3
+            score += 3
             print("Correct! You earned 3 points.")
         else:
             lives -= 1
@@ -109,31 +113,33 @@ def play_game(username, points):
                 print(f"Incorrect. You have run out of lives. The answer was {song_name}.")
             else:
                 print(f"Incorrect. You have {lives} lives.")
-    return points
-  
+    return score
+
 # Main program
 def main():
     clear_screen()
     display_centered_menu()
     while True:
-        option = input("Select an option (1-3): ")
+        option = input("Select an option (1-4): ")
         if option == "1":
             clear_screen()
             username = input("Enter your username: ")
             password = input("Enter your password: ")
             if check_login(username, password):
-                points = 0
-                points = play_game(username, points)
-                score = points
+                score = play_game(username)
                 update_scoreboard(username, score)
             else:
                 print("Incorrect username or password. Please try again.")
-        elif option == "2":
-            clear_screen()
-            display_scoreboard()
         elif option == "3":
             clear_screen()
-            print("Thank you for playing Guess the Song!")
+            display_scoreboard()
+        elif option == "2":
+            clear_screen()
+            get_login()
+            print("Account created successfully!")
+        elif option == "4":
+            clear_screen()
+            print("Thank you for playing Oliver Smith's song guessing game extravaganza!")
             break
         else:
             print("Invalid option. Please try again.")
@@ -141,5 +147,3 @@ def main():
 # Run the main program
 if __name__ == "__main__":
     main()
-
-
