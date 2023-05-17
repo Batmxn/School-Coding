@@ -1,6 +1,7 @@
 import random
 import os
 import shutil
+import getpass
 
 # Function to read a file and return its contents as a list
 def read_file(filename):
@@ -20,7 +21,7 @@ def clear_screen():
 # Function to get a username and password from the user and store it in a file
 def get_login():
     username = input("Enter your username: ")
-    password = input("Enter your password: ")
+    password = getpass.getpass("Enter your password: ")
     write_line("logins.txt", f"{username},{password}")
 
 # Function to check if a username and password match a stored login
@@ -124,7 +125,7 @@ def main():
         if option == "1":
             clear_screen()
             username = input("Enter your username: ")
-            password = input("Enter your password: ")
+            password = getpass.getpass("Enter your password: ")
             if check_login(username, password):
                 score = play_game(username)
                 update_scoreboard(username, score)
