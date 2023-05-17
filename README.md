@@ -1,11 +1,10 @@
-"""
-Oliver Smith's Music Guessing Game
+Oliver Smith's song guessing game extravaganza!
 
 This program is a guess the song game where the user needs to guess the name of a song based on hints provided. The program keeps track of the user's score and displays a scoreboard of the top five scores at the end of the game. The user's login information is stored in a file, and the highest score achieved by each user is recorded in another file.
 
 Features:
 - User Login: The program prompts the user for a username and password. If the login information is correct, the game starts. Otherwise, a new login is created.
-- Guess the Song: The program randomly selects a song from a list and provides a hint in the format "Artist - First letter of the song". The user has two chances to guess the song name. If the user guesses correctly on the first try, they receive 3 points. If they guess correctly on the second try, they receive 1 point. The user has 3 lives, and if they run out of lives, the game ends.
+- The Game: The program randomly selects a song from a list and provides a hint in the format "Artist - First letter of the song". The user has two chances to guess the song name. If the user guesses correctly on the first try, they receive 3 points. If they guess correctly on the second try, they receive 1 point. The user has 3 lives, and if they run out of lives, the game ends.
 - Scoreboard: After the game ends, the user's score is recorded in a scoreboard file. The program displays the top five scores from the scoreboard.
 
 Files:
@@ -22,5 +21,6 @@ Usage:
 6. At the end of the game, your score is recorded in the scoreboard, and the top five scores are displayed.
 
 Make sure to have the necessary files (logins.txt, songs.txt, and scores.txt) in the same directory as the program script.
-"""
+
+Thank you for playing Oliver Smith's song guessing game extravaganza!
 
