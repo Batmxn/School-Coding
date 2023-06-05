@@ -69,7 +69,7 @@ def display_menu():
     3. Leaderboard
     4. Exit
 
-    Select an option (1-4): """
+               Select an option (1-4): """
     print(menu)
 
 # Function to center align text
@@ -82,12 +82,12 @@ def center_align(text):
 def display_centered_menu():
     clear_screen()
     menu = """
-    Guess the Song - Main Menu
+  Oliver Smith's song guessing game extravaganza!
 
-    1. Play Game
-    2. Create Account
-    3. Leaderboard
-    4. Exit
+              - 1. Play Game
+              - 2. Create Account
+              - 3. Leaderboard
+              - 4. Exit
     """
     print(center_align(menu))
 
