@@ -81,7 +81,14 @@ def center_align(text):
 def display_centered_menu():
     clear_screen()
     menu = """
-  Oliver Smith's song guessing game extravaganza!
+  
+   ______                        ________    _                  
+  / ____/___ _____ ___  ___     /_  __/ /_  (_)___  ____ ___  __
+ / / __/ __ `/ __ `__ \/ _ \     / / / __ \/ / __ \/ __ `/ / / /
+/ /_/ / /_/ / / / / / /  __/    / / / / / / / / / / /_/ / /_/ / 
+\____/\__,_/_/ /_/ /_/\___/    /_/ /_/ /_/_/_/ /_/\__, /\__, /  
+                                                 /____//____/   
+
 
               - 1. Play Game
               - 2. Create Account
@@ -96,7 +103,7 @@ def play_game(username):
     lives = 3
     score = 0
     clear_screen()
-    print(f"Welcome to Oliver Smith's song guessing game extravaganza!, {username}!")
+    print(f"Welcome to Game Thingy!, {username}!")
     while len(songs) > 0 and lives > 0:
         song = random.choice(songs)
         songs.remove(song)
