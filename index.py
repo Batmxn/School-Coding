@@ -39,7 +39,8 @@ def update_scoreboard(username, score):
     if user_scores:
         highest_score = max((user_score[1]) for user_score in user_scores)
         if score > highest_score:
-            user_scores = [[username, str(score)]] + [user_score for user_score in user_scores if 
+            user_scores = [[username, str(score)]] + [user_score for user_score in user_scores if (user_score[1]) < score]
+        else:
             return
     else:
         user_scores = [[username, str(score)]]
@@ -61,14 +62,19 @@ def display_scoreboard():
 # Function to display the main menu
 def display_menu():
     menu = """
-    Guess the Song - Main Menu
+    
+   ______                        ________    _                  
+  / ____/___ _____ ___  ___     /_  __/ /_  (_)___  ____ ___  __
+ / / __/ __ `/ __ `__ \/ _ \     / / / __ \/ / __ \/ __ `/ / / /
+/ /_/ / /_/ / / / / / /  __/    / / / / / / / / / / /_/ / /_/ / 
+\____/\__,_/_/ /_/ /_/\___/    /_/ /_/ /_/_/_/ /_/\__, /\__, /  
+                                                 /____//____/   
 
-    1. Play Game
-    2. Create Account
-    3. Leaderboard
-    4. Exit
 
-               Select an option (1-4): """
+1. Play Game
+2. Create Account
+3. Leaderboard
+4. Exit"""
     print(menu)
 
 # Function to center align text
@@ -90,11 +96,10 @@ def display_centered_menu():
                                                  /____//____/   
 
 
-              - 1. Play Game
-              - 2. Create Account
-              - 3. Leaderboard
-              - 4. Exit
-    """
+1. Play Game
+2. Create Account
+3. Leaderboard
+4. Exit"""
     print(center_align(menu))
 
 # Function to play the guess the song game
@@ -103,7 +108,13 @@ def play_game(username):
     lives = 3
     score = 0
     clear_screen()
-    print(f"Welcome to Game Thingy!, {username}!")
+    print(f"""Welcome to
+   ______                        ________    _                  
+  / ____/___ _____ ___  ___     /_  __/ /_  (_)___  ____ ___  __
+ / / __/ __ `/ __ `__ \/ _ \     / / / __ \/ / __ \/ __ `/ / / /
+/ /_/ / /_/ / / / / / /  __/    / / / / / / / / / / /_/ / /_/ / 
+\____/\__,_/_/ /_/ /_/\___/    /_/ /_/ /_/_/_/ /_/\__, /\__, /  
+                                                 /____//____/   """)
     while len(songs) > 0 and lives > 0:
         song = random.choice(songs)
         songs.remove(song)
@@ -127,7 +138,7 @@ def main():
     clear_screen()
     display_centered_menu()
     while True:
-        option = input("Select an option (1-4): ")
+        option = input("")
         if option == "1":
             clear_screen()
             username = input("Enter your username: ")
@@ -146,7 +157,14 @@ def main():
             print("Account created successfully!")
         elif option == "4":
             clear_screen()
-            print("Thank you for playing Oliver Smith's song guessing game extravaganza!")
+            print("""Thank you for playing 
+   ______                        ________    _                  
+  / ____/___ _____ ___  ___     /_  __/ /_  (_)___  ____ ___  __
+ / / __/ __ `/ __ `__ \/ _ \     / / / __ \/ / __ \/ __ `/ / / /
+/ /_/ / /_/ / / / / / /  __/    / / / / / / / / / / /_/ / /_/ / 
+\____/\__,_/_/ /_/ /_/\___/    /_/ /_/ /_/_/_/ /_/\__, /\__, /  
+                                                 /____//____/   
+""")
             break
         else:
             print("Invalid option. Please try again.")
