@@ -37,16 +37,17 @@ def update_scoreboard(username, score):
     scores = read_file("scores.txt")
     user_scores = [line.split(",") for line in scores if line.startswith(username)]
     if user_scores:
-        highest_score = max((user_score[1]) for user_score in user_scores)
+        highest_score = max(int(user_score[1]) for user_score in user_scores)
         if score > highest_score:
-            user_scores = [[username, str(score)]] + [user_score for user_score in user_scores if (user_score[1]) < score]
-        else:
-            return
+            for user_score in user_scores:
+                if int(user_score[1]) < score:
+                    user_score[1] = str(score)
     else:
         user_scores = [[username, str(score)]]
     scores = [",".join(user_score) for user_score in user_scores] + [line for line in scores if not line.startswith(username)]
     with open("scores.txt", "w") as f:
         f.write("\n".join(scores))
+
 
 # Function to display the top five scores in the scoreboard
 def display_scoreboard():
