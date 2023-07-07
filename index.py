@@ -109,13 +109,7 @@ def play_game(username):
     lives = 3
     score = 0
     clear_screen()
-    print(f"""Welcome to
-   ______                        ________    _                  
-  / ____/___ _____ ___  ___     /_  __/ /_  (_)___  ____ ___  __
- / / __/ __ `/ __ `__ \/ _ \     / / / __ \/ / __ \/ __ `/ / / /
-/ /_/ / /_/ / / / / / /  __/    / / / / / / / / / / /_/ / /_/ / 
-\____/\__,_/_/ /_/ /_/\___/    /_/ /_/ /_/_/_/ /_/\__, /\__, /  
-                                                 /____//____/   """)
+    print(f"Welcome to Game Thingy!")
     while len(songs) > 0 and lives > 0:
         song = random.choice(songs)
         songs.remove(song)
@@ -158,14 +152,7 @@ def main():
             print("Account created successfully!")
         elif option == "4":
             clear_screen()
-            print("""Thank you for playing 
-   ______                        ________    _                  
-  / ____/___ _____ ___  ___     /_  __/ /_  (_)___  ____ ___  __
- / / __/ __ `/ __ `__ \/ _ \     / / / __ \/ / __ \/ __ `/ / / /
-/ /_/ / /_/ / / / / / /  __/    / / / / / / / / / / /_/ / /_/ / 
-\____/\__,_/_/ /_/ /_/\___/    /_/ /_/ /_/_/_/ /_/\__, /\__, /  
-                                                 /____//____/   
-""")
+            print("Thank you for playing Game Thingy!")
             break
         else:
             print("Invalid option. Please try again.")
